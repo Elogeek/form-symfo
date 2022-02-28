@@ -19,7 +19,7 @@
                     <td>{{ article.id }}</td>
                     <td>{{ article.title }}</td>
                     <td>{{ article.content}}</td>
-                    <td><a href="{{ path('/article/edit/{id}', {id: article.id}) }}">Editer</a></td>
+                    <td><a href="{{ path('/article/edit/{id}', {id: article.id}) }}">Edited</a></td>
                     <td><a href="{{ path('/article_delete', {id: article.id}) }}">Delete</a></td>
                 </tr>
             {% endfor %}
