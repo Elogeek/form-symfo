@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un nouvel article!{% endblock %}
+
+{% block body %}
+    {# Use thme Foundation #}
+    <div class="margin-3">
+        {% form_theme form 'foundation_5_layout.html.twig' %}
+        {# Use for a particular form bootstrap #}
+        {# form_theme form 'bootstrap_5_horizontal_layout.html.twig #}
+        {{ form(form) }}
+    </div>
+{% endblock %}
