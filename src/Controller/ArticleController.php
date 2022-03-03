@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,13 +32,23 @@ class ArticleController extends AbstractController {
      * Add a form in the article (template)
      */
     #[Route('/article/add', name: 'article_add')]
-    public function add(Request $request, EntityManagerInterface $entityManager): Response {
+    public function add(Request $request, EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag): Response {
         $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleType::class, $article, [
+            'users' => $entityManager->getRepository(User::class)->findAll(),
+        ]);
 
         $form->handleRequest($request);
         // If the form is submitted and valid then we save it in db
         if($form->isSubmitted() && $form->isValid()) {
+            $file = $form['fileCover']->getData();
+            $ext = $file->guessExtension();
+            if(!$ext) {
+                // If not ext alors use ext générique
+                $ext = 'txt';
+            }
+            // Déplacement du file and rename name unique
+            $file->move($parameterBag->get("upload.directory"), uniqid(). "." .$ext);
             $entityManager->persist($article);
             $entityManager->flush();
         }
