@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un article!{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter un article !</h1>
+    <div class="aticle-form">
+        {{ form_start(article_formulaire) }}
+    </div>
+    <div class="form-content">
+        {{ form_rest(article_formulaire) }}
+    </div>
+    {{ form_end(article_formulaire) }}
+
+{% endblock %}
+

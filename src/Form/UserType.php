@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,16 +20,18 @@ class UserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('password',RepeatedType::class, [
                 // Fourni le type qui doit être repeat
-                'type'=> PasswordType::class,
-                 'first_options' => [
-                    'label' => "Entrez un mot de passe",
-                ],
-                'second_options_options' => [
-                    'label' => "Répétez un mot de passe",
-                ],
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe ne correspondent pas.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Envoyer"
+            ])
+            ->add('reset', ResetType::class, [
+                'label' => 'Refresh form'
             ])
         ;
     }
