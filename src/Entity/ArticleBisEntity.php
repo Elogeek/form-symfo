@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleBisEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleBisEntityRepository::class)]
 class ArticleBisEntity
@@ -13,16 +14,19 @@ class ArticleBisEntity
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NoBlank("Le titre ne peut être vide!")]
+    private ?string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $content;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: "La date de la publication ne peut êrtre nul")]
     private \DateTime $dateAdd;
 
     #[ORM\Column(type: 'boolean')]
+    #[Assert\IsTrue(message: "Les conditions générales doivent être acceptées")]
     private ?bool $isPublished;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]

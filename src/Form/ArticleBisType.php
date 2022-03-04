@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ArticleBisType extends AbstractType
 {
@@ -20,13 +22,25 @@ class ArticleBisType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => "Titre de l'article"
+                'label' => "Titre de l'article",
             ])
             ->add('content', TextareaType::class, [
                 'label' => "Entrez le contenu de l'article"
             ])
             ->add('dateAdd', DateType::class, [
                 'widget' => 'single_text'
+            ])
+            ->add('attachment',FileType::class,[
+                'label' => "Ajoutez une capture d'écran",
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '3M',
+                        'maxSizeMessage' => "L'image est trop lourde",
+                        'sizeNotDetectedMessage' => "Impossible de déterminer la taille de l'image",
+                        "detectCorrupted" => true
+                    ])
+                ]
             ])
             ->add('isPublished', CheckboxType::class,[
                 'label' => "Publier directement l'article ?"

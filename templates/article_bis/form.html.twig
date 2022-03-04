@@ -5,13 +5,14 @@
 {% block body %}
 
     <h1>Ajouter un article !</h1>
+
     <div class="aticle-form">
-        {{ form_start(article_formulaire) }}
+        {{ form_start(form) }}
     </div>
     <div class="form-content">
-        {{ form_rest(article_formulaire) }}
+        {{ form_rest(form) }}
     </div>
-    {{ form_end(article_formulaire) }}
+    {{ form_end(form) }}
 
 {% endblock %}
 
